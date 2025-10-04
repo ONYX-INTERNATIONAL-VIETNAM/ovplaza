@@ -14,8 +14,21 @@ import Hotspot from "./Hotspot";
 import MiniMap from "./MiniMap";
 import type { OrbitControls as OrbitControlsType } from "three-stdlib";
 
+/* ========= Helpers: detect mobile ========= */
+function useIsMobile() {
+  const [mobile, setMobile] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia("(max-width: 768px)");
+    const update = () => setMobile(mql.matches);
+    update();
+    mql.addEventListener?.("change", update);
+    return () => mql.removeEventListener?.("change", update);
+  }, []);
+  return mobile;
+}
+
 /* ======= NỀN TRỜI + SAO ======= */
-function Sky() {
+function Sky({ isMobile }: { isMobile: boolean }) {
   const mat = useMemo(
     () => new THREE.MeshBasicMaterial({ color: "#15122a", side: THREE.BackSide }),
     []
@@ -24,7 +37,14 @@ function Sky() {
   return (
     <>
       <mesh geometry={geo} material={mat} />
-      <Stars radius={80} depth={40} count={5000} factor={1.8} fade speed={0.45} />
+      <Stars
+        radius={80}
+        depth={40}
+        count={isMobile ? 2200 : 5000}   // giảm sao trên mobile cho nhẹ
+        factor={isMobile ? 1.4 : 1.8}
+        fade
+        speed={0.45}
+      />
     </>
   );
 }
@@ -39,8 +59,7 @@ function Tiles() {
   return <mesh geometry={g} material={m} receiveShadow />;
 }
 function RingWalk() {
-  const rOuter = 18,
-    rInner = 14;
+  const rOuter = 18, rInner = 14;
   const g = useMemo(() => new THREE.RingGeometry(rInner, rOuter, 128, 1).rotateX(-Math.PI / 2), []);
   const m = useMemo(
     () => new THREE.MeshStandardMaterial({ color: "#0f1420", roughness: 0.92, metalness: 0.05 }),
@@ -240,16 +259,16 @@ function FocusController({ positions }: { positions: [number, number, number][] 
 }
 
 /* ======= SCENE CHÍNH ======= */
-function Scene() {
+function Scene({ isMobile }: { isMobile: boolean }) {
   const dir = useRef<THREE.DirectionalLight>(null);
   useFrame(() => dir.current?.position.set(10, 12, 8));
 
   const positions = useRingPositions(ZONES.length, 16);
-  const lampPositions = useRingPositions(12, 20);
+  const lampPositions = useRingPositions(isMobile ? 8 : 12, 20); // ít đèn hơn trên mobile
 
   return (
     <>
-      <Sky />
+      <Sky isMobile={isMobile} />
       <hemisphereLight args={["#b3c5ff", "#0d0f14", 0.55]} />
       <directionalLight ref={dir} intensity={1.2} castShadow shadow-mapSize={[1024, 1024]} />
       <fog attach="fog" args={["#0d0f14", 18, 60]} />
@@ -274,21 +293,25 @@ function Scene() {
         </group>
       ))}
 
-      <ContactShadows position={[0, 0, 0]} opacity={0.35} scale={100} blur={3} far={30} />
+      {/* tắt bóng tiếp xúc trên mobile để nhẹ hơn */}
+      {!isMobile && (
+        <ContactShadows position={[0, 0, 0]} opacity={0.35} scale={100} blur={3} far={30} />
+      )}
 
       <OrbitControls
         makeDefault
         enableDamping
         dampingFactor={0.08}
-        minDistance={10}
-        maxDistance={42}
-        maxPolarAngle={Math.PI / 2.05}
+        minDistance={isMobile ? 11 : 10}
+        maxDistance={isMobile ? 32 : 42}
+        maxPolarAngle={Math.PI / 2.2}
         target={[0, 1.0, 0]}
         mouseButtons={{
           LEFT: THREE.MOUSE.PAN,
           RIGHT: THREE.MOUSE.ROTATE,
           MIDDLE: THREE.MOUSE.DOLLY,
         }}
+        touches={{ ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN }}
       />
 
       <FocusController positions={positions} />
@@ -297,7 +320,10 @@ function Scene() {
 }
 
 export default function PlazaCanvas() {
-  const [dpr, setDpr] = useState<[number, number]>([1, 2]);
+  const isMobile = useIsMobile();
+  const [dpr, setDpr] = useState<[number, number]>(() =>
+    typeof window !== "undefined" && window.devicePixelRatio > 2 ? [1, 1.5] : [1, 2]
+  );
 
   return (
     <>
@@ -310,18 +336,20 @@ export default function PlazaCanvas() {
         gl={{ antialias: true, alpha: false }}
         camera={{ position: [14, 9, 14], fov: 42 }}
         dpr={dpr}
-        style={{ width: "100vw", height: "100vh" }}
+        style={{ width: "100vw", height: "100vh", touchAction: "none" }} // tránh kéo trang khi gesture
       >
-        <PerformanceMonitor onDecline={() => setDpr([1, 1])} onIncline={() => setDpr([1, 2])} />
-        <Scene />
+        <PerformanceMonitor
+          onDecline={() => setDpr([1, 1])}
+          onIncline={() => setDpr([1, isMobile ? 1.5 : 2])}
+        />
+        <Scene isMobile={isMobile} />
       </Canvas>
 
       <div className="hud">
         <b>Controls</b>
         <br />
-        <span className="badge">Left drag = move</span>
-        <span className="badge">Right drag = rotate</span>
-        <span className="badge">Wheel = zoom</span>
+        <span className="badge">1 ngón xoay</span>
+        <span className="badge">2 ngón zoom/pan</span>
         <br />
         Click label/khối để vào trang · Dùng mini-map để bay nhanh.
       </div>
