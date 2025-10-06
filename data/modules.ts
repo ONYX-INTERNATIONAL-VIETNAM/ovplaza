@@ -11,14 +11,6 @@ export type ModuleItem = {
 
 export const MODULES: ModuleItem[] = [
   {
-    key: "ovvideo",
-    label: "OVVIDEO",
-    lat: -50, lng: -170, color: "#ffd34d",
-    url: "https://ovvideo.yourdomain.com",
-    image: "/banners/ovvideo.jpg",
-    desc: "Nền tảng video & livestream tích hợp tương tác, vé và quảng cáo."
-  },
-  {
     key: "ovlab",
     label: "OVLAB",
     lat: 28, lng: 10, color: "#9ae6b4",
@@ -35,16 +27,16 @@ export const MODULES: ModuleItem[] = [
     desc: "Gia sư 1-1/nhóm, bài tập, quiz & theo dõi tiến độ học tập."
   },
   {
-    key: "ovpay",
+    key: "ovbay",
     label: "OVBAY",
-    lat: 20, lng: 60, color: "#a78bfa",
+    lat: -50, lng: -170, color: "#ffd34d",  
     url: "https://ovpay.yourdomain.com",
     image: "/banners/ovpay.jpg",
     desc: "Thanh toán đa kênh: QR, thẻ, subscription và payout."
   },
   {
-    key: "ovcoffe",
-    label: "OVCOFFE",
+    key: "ovcafe",
+    label: "OVCAFE",
     lat: 15, lng: -120, color: "#f472b6",
     url: "https://ovcoffe.yourdomain.com",
     image: "/banners/ovcoffe.jpg",
