@@ -5,25 +5,23 @@ import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Line, useTexture } from "@react-three/drei";
 
-export default function Globe() {
-  // Tải các texture với type rõ ràng
+export default function Globe({
+  rotate = true,
+  equator = true,
+}: {
+  rotate?: boolean;
+  equator?: boolean;
+}) {
   const textures = useTexture([
     "/images/earth_color.png",
     "/images/earth_bump.png",
     "/images/earth_night.png",
     "/images/earth_spec.png",
     "/images/earth_clouds.png",
-  ]) as [
-    THREE.Texture,
-    THREE.Texture,
-    THREE.Texture,
-    THREE.Texture,
-    THREE.Texture
-  ];
+  ]) as [THREE.Texture, THREE.Texture, THREE.Texture, THREE.Texture, THREE.Texture];
 
   const [colorMap, bumpMap, nightMap, specMask, cloudsMap] = textures;
 
-  // Đặt colorSpace chính xác (TypeScript sẽ hiểu đúng)
   colorMap.colorSpace = THREE.SRGBColorSpace;
   nightMap.colorSpace = THREE.SRGBColorSpace;
 
@@ -31,6 +29,7 @@ export default function Globe() {
   const cloudsRef = useRef<THREE.Mesh>(null);
 
   useFrame((_, delta) => {
+    if (!rotate) return;
     if (group.current) group.current.rotation.y += delta * 0.05;
     if (cloudsRef.current) cloudsRef.current.rotation.y += delta * 0.02;
   });
@@ -63,27 +62,24 @@ export default function Globe() {
       {/* Clouds */}
       <mesh ref={cloudsRef}>
         <sphereGeometry args={[1.015, 128, 128]} />
-        <meshStandardMaterial
-          map={cloudsMap}
-          transparent
-          opacity={0.6}
-          depthWrite={false}
-        />
+        <meshStandardMaterial map={cloudsMap} transparent opacity={0.6} depthWrite={false} />
       </mesh>
 
       {/* Equator guide */}
-      <Line
-        points={new THREE.EllipseCurve(0, 0, 1.001, 1.001, 0, 2 * Math.PI)
-          .getSpacedPoints(128)
-          .map((p) => new THREE.Vector3(p.x, 0, p.y))}
-        color="#ffffff"
-        lineWidth={1}
-        dashed
-        dashSize={0.1}
-        gapSize={0.08}
-        opacity={0.2}
-        transparent
-      />
+      {equator && (
+        <Line
+          points={new THREE.EllipseCurve(0, 0, 1.001, 1.001, 0, 2 * Math.PI)
+            .getSpacedPoints(128)
+            .map((p) => new THREE.Vector3(p.x, 0, p.y))}
+          color="#ffffff"
+          lineWidth={1}
+          dashed
+          dashSize={0.1}
+          gapSize={0.08}
+          opacity={0.2}
+          transparent
+        />
+      )}
     </group>
   );
 }
