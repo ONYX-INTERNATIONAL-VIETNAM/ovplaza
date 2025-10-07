@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "OVPLAZA — 3D Portal",
-  description: "Gateway 3D premium (THE LÄND vibe), nhẹ & mượt.",
+  title: "OVPLAZA",
+  description: "OVPlaza là hệ sinh thái kỹ thuật số đa nền tảng, hoạt động như một “trung tâm trực tuyến” kết nối thương mại, học tập, giải trí và nghiên cứu trong một không gian thống nhất.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
