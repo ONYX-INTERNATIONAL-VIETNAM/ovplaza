@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { ChevronRight, ExternalLink } from "lucide-react";
 
 import Background from "@/components/ovplaza/Background";
@@ -56,19 +57,23 @@ export default function Page() {
           flex flex-col items-center pt-3 pb-9
     "
         >
-          {/* LOGO */}
-          <img
+          <Image
             src="/images/logo.png"
             alt="ONYX"
-            className="h-8 object-contain"
+            width={120}
+            height={32}
+            className="object-contain"
+            priority
           />
 
-          {/* QR CODE */}
-          <img
-            src="/images/qr.png"
-            alt="QR code"
-            className="w-full h-full object-contain"
-          />
+          <div className="relative w-24 h-24">
+            <Image
+              src="/images/qr.png"
+              alt="QR code"
+              fill
+              className="object-contain"
+            />
+          </div>
         </div>
       </div>
 
