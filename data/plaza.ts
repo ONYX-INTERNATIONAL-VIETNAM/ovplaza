@@ -9,13 +9,13 @@ export const FLOORS: Floor[] = [
     label: "Connection",
     bubble: {
       m: { left: "12%", top: "31%" },
-      t: { left: "30%", top: "28%" },
+      t: { left: "21%", top: "34%" },
       d: { left: "30%", top: "28%" },
       align: { m: "left", t: "left", d: "left" },
     },
     bar: {
       m: { left: "39%", top: "30%", height: "10%" },
-      t: { left: "45%", top: "29%", height: "13%" },
+      t: { left: "43%", top: "32%", height: "11%" },
       d: { left: "45%", top: "29%", height: "13%" },
     },
     ovs: [
@@ -43,13 +43,13 @@ export const FLOORS: Floor[] = [
     label: "Learning & Innovation",
     bubble: {
       m: { left: "67%", top: "47%" },
-      t: { left: "60%", top: "42%" },
+      t: { left: "63%", top: "44%" },
       d: { left: "60%", top: "42%" },
       align: { m: "left", t: "right", d: "right" },
     },
     bar: {
       m: { left: "66%", top: "48%", height: "8%" },
-      t: { left: "56%", top: "45%", height: "10%" },
+      t: { left: "60%", top: "44%", height: "7%" },
       d: { left: "56%", top: "45%", height: "10%" },
     },
     ovs: [
@@ -69,13 +69,13 @@ export const FLOORS: Floor[] = [
     label: "Shopping & Services",
     bubble: {
       m: { left: "1%", top: "52%" },
-      t: { left: "25%", top: "54%" },
+      t: { left: "10%", top: "57%" },
       d: { left: "25%", top: "54%" },
       align: { m: "left", t: "left", d: "left" },
     },
     bar: {
       m: { left: "33%", top: "52%", height: "9%" },
-      t: { left: "45%", top: "56%", height: "9%" },
+      t: { left: "39%", top: "56%", height: "7%" },
       d: { left: "45%", top: "56%", height: "9%" },
     },
     ovs: [
@@ -95,13 +95,13 @@ export const FLOORS: Floor[] = [
     label: "Community & Café",
     bubble: {
       m: { left: "67%", top: "62%" },
-      t: { left: "60%", top: "63%" },
+      t: { left: "63%", top: "57%" },
       d: { left: "60%", top: "63%" },
       align: { m: "left", t: "right", d: "right" },
     },
     bar: {
       m: { left: "66%", top: "62%", height: "11%" },
-      t: { left: "56%", top: "66%", height: "11%" },
+      t: { left: "60%", top: "57%", height: "6%" },
       d: { left: "56%", top: "66%", height: "11%" },
     },
     ovs: [

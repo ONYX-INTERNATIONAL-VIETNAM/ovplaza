@@ -24,6 +24,9 @@ export default function BottomDock() {
             left-[7%] sm:left-[10%]
             text-center
             px-2
+            md:bottom-0
+            md:pb-[10px]
+            lg:pb-[30px]
           "
         >
           <div className="mb-2 grid place-items-center">
@@ -52,6 +55,9 @@ export default function BottomDock() {
             right-[7%] sm:right-[10%]
             text-center
             px-2
+            md:bottom-0
+            md:pb-[10px]
+            lg:pb-[30px]
           "
         >
           <div className="mb-2 grid place-items-center">
