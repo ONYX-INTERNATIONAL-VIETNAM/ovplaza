@@ -58,14 +58,14 @@ export default function Page() {
         >
           {/* LOGO */}
           <img
-            src="/images/logo.png"
+            src="/images/logo-onyx.png"
             alt="ONYX"
             className="h-8 object-contain"
           />
 
           {/* QR CODE */}
           <img
-            src="/images/qr.png"
+            src="/images/qr-app-ovplaza.png"
             alt="QR code"
             className="w-full h-full object-contain"
           />
